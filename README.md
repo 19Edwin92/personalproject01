@@ -19,27 +19,19 @@
 
 <br/>
 
-- Mock Service Worker 라이브러리
-<br/>
-네트워트의 요청을 가로채고, 가짜 응답을 제공하여 실제 서버와 독립적으로 작업할 수 있는 환경을 제공한다. 이를 통해서 개발자는 목데이터를 활용하여 특정 엔드포인트에 대한 응답을 정의하고, 실제 API호출 없이 응답을 받아올 수 있다. "msw"의 특별한 점은 네트워크 요청을 가로채는 방식을 사용한다는 것입니다. 이를 통해 애플리케이션의 실제 코드를 변경하지 않고도 API 호출을 가로채고 조작할 수 있습니다. 또한, "msw"는 강력한 요청 및 응답 핸들링 기능을 제공하므로 다양한 시나리오를 모방하고 테스트할 수 있습니다. 즉 "msw"는 개발자가 임시로 모의 데이터를 사용하거나, 백엔드 서버가 아직 준비되지 않았을 때도 애플리케이션의 API 호출을 테스트하고 개발할 수 있는 유용한 도구입니다.
-- json-server 라이브러리
-<br/>
-실제 백엔드 서버와는 별개로 동작하는 가상의 RESTful API 서버를 만들어주는 도구이다. JSON 파일이나 JavaScript 객체로부터 데이터를 읽어와서 해당 데이터를 기반으로 가짜 API를 생성할 수 있습니다
-- 용어정리
-<br/>
-엔드포인트(Endpoint) : 웹 API에서 특정 리소스에 접근하기 위한 URL 경로를 말합니다.
-- 라이브러리 사용하기
-<br/>
-첫째, src -> mock 폴더를 생성
-<br/>
-둘째, browser.ts 파일과 handlers.ts 파일 만들기
-<br/>
-셋째, [msw 서버열기](https://mswjs.io/docs/getting-started/integrate/browser)
-<br/>
-
-  - `터미널에 명령` :  yarn msw init public/ --save
-  - `터미널에 성공메시지 확인하기` : Service Worker successfully created!
-  - `index.tsx`에 아래의 코드 넣이주기
+- Mock Service Worker 라이브러리 <br/>
+  네트워트의 요청을 가로채고, 가짜 응답을 제공하여 실제 서버와 독립적으로 작업할 수 있는 환경을 제공한다. 이를 통해서 개발자는 목데이터를 활용하여 특정 엔드포인트에 대한 응답을 정의하고, 실제 API호출 없이 응답을 받아올 수 있다. "msw"의 특별한 점은 네트워크 요청을 가로채는 방식을 사용한다는 것입니다. 이를 통해 애플리케이션의 실제 코드를 변경하지 않고도 API 호출을 가로채고 조작할 수 있습니다. 또한, "msw"는 강력한 요청 및 응답 핸들링 기능을 제공하므로 다양한 시나리오를 모방하고 테스트할 수 있습니다. 즉 "msw"는 개발자가 임시로 모의 데이터를 사용하거나, 백엔드 서버가 아직 준비되지 않았을 때도 애플리케이션의 API 호출을 테스트하고 개발할 수 있는 유용한 도구입니다.
+- json-server 라이브러리 <br/>
+  실제 백엔드 서버와는 별개로 동작하는 가상의 RESTful API 서버를 만들어주는 도구이다. JSON 파일이나 JavaScript 객체로부터 데이터를 읽어와서 해당 데이터를 기반으로 가짜 API를 생성할 수 있습니다
+- 용어정리 <br/>
+  엔드포인트(Endpoint) : 웹 API에서 특정 리소스에 접근하기 위한 URL 경로를 말합니다.
+- 라이브러리 사용하기 <br/>
+  첫째, src -> mock 폴더를 생성<br/>
+  둘째, browser.ts 파일과 handlers.ts 파일 만들기<br/>
+  셋째, [msw 서버열기](https://mswjs.io/docs/getting-started/integrate/browser)<br/>
+   - `터미널에 명령` :  yarn msw init public/ --save
+   - `터미널에 성공메시지 확인하기` : Service Worker successfully created!
+   - `index.tsx`에 아래의 코드 넣이주기<br/><br/>
 
     ```tsx
     // Start the mocking conditionally.
@@ -48,8 +40,8 @@
       worker.start()
     }
     ```
-      <img src='./public/imgs/msw01.png' alt="msw라이브러리" width="800px">
-      <br/><br/>
+  
+  <img src='./public/imgs/msw01.png' alt="msw라이브러리" width="800px"><br/><br/>
   - `msw 실행`하여 data를 불러와보자. 
   <br/><br/>
   <img src='./public/imgs/msw02.png' alt="msw라이브러리" width="800px">
@@ -73,8 +65,8 @@
 ## ⚙️ 라이브러리 
 라이브러리 | 설명
 ---|:---
-![msw badge](https://img.shields.io/badge/msw-^1.2.1.0-00B0FF?style=flat-square&logo=react&logoColor=white) | 목데이터를 활용한 가짜서버 API 만들기
-![axios badge](https://img.shields.io/badge/axios-^1.4.0.0-00B0FF?style=flat-square&logo=react&logoColor=white) | 프로미스를 기반으로한 API 호출 라이브러리
+![msw badge](https://img.shields.io/badge/msw-^1.2.1.0-00B0FF?style=flat-square&logo=react&logoColor=white) | 목데이터를 활용한 가짜서버(API) 만들기
+![axios badge](https://img.shields.io/badge/axios-^1.4.0.0-00B0FF?style=flat-square&logo=react&logoColor=white) | 프로미스를 기반으로 한 API 호출 라이브러리
 
 <br/>
 
