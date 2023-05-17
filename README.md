@@ -50,10 +50,13 @@
     ```
       <img src='./public/imgs/msw01.png' alt="msw라이브러리" width="800px">
       <br/><br/>
-  - `msw 실행`하여 data를 불러와보자. 
-  <br/><br/>
+  - `msw 실행`하여 data를 불러와보자. <br/><br/>
   <img src='./public/imgs/msw02.png' alt="msw라이브러리" width="800px">
 
+  <br/>
+
+  - `msw` DELETE, POST까지 기능을 구현했다.(fetchAPI)<br/><br/>
+  <img src='./public/imgs/msw04.gif' alt="msw라이브러리" width="800px">
 <hr>
 </div>
 </details>
@@ -136,5 +139,13 @@
     }
     ```  
     <img src='./public/imgs/msw03.gif' alt="msw라이브러리" width="800px">   
+<hr>
+</details>
+
+<details>
+<summary>셋째, .env 환경변수 문제</summary>
+
+  - `환경변수`는 접두어에 REACT_APP_ 을 반드시 붙여줘야 한다. 그렇지 않으면 undefined로 출력될 것이다. 
+  - 해당 부분의 이슈 때문에 한참을 돌아온 것 같다. 
 <hr>
 </details>
