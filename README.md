@@ -5,7 +5,7 @@
 
 # First Edwin Project
 ## 💡 프로젝트개요 
-이번 개인프로젝트의 목표는 먼저 tsx 구분으로 리액트 컴포넌트를 연습하는 것이며, 다음으론 msw를 통해서 프론트엔드 테스트코드를 구현하는 것이고, 셋째로 Redux-ThunkAPI를 통해서 전역상태관리를 하는 것이다. 
+이번 개인프로젝트의 목표는 먼저 tsx 구문으로 리액트 컴포넌트를 연습하는 것이며, 다음으로 msw를 통해서 프론트엔드 테스트코드를 구현하는 것이고, 셋째로 Redux-ThunkAPI를 통해서 전역상태관리를 하는 것이다. 
 <br/><br/>
 <details>
 <summary>첫째, 타입스크립트로 리액트 컴포넌트 작성하기 </summary>
@@ -84,5 +84,57 @@
 
   - `공식문서` : 공식문서에서는 찾아볼 수 없고 https://github.com/mswjs/msw/blob/main/test/browser/rest-api/basic.mocks.ts 을 통해서 해당 내용에 접근할 수 있는 것 같다. MSW 라이브러리의 GitHub 저장소는 다양한 문서와 예제를 제공하는데, 이를 통해서 볼 때 별도의 타입설정을 여기서는 하지 않는 것 같다. 
 
+  - `타입단언` : delete 호출을 구현하려는 가운데 문제가 발생했다. 명시적 타입을 선언해주지 않은 결과, 실행된 타입추론이 문제가 되었다. 마우스를 올려보면 `const id: string | readonly string[]`으로 타입이 추론된 것으 볼 수 있다. 이는 req.params.id의 타입이 타입 시스템이 확실히 인지하지 못하기 때문이다. 단일하면 string이지만, 여러 값일 때는 배열로 처리되도록 인지했기 때문이다. 그러기에 개발자가 타입을 확신할 수 있다면 `as`(타입단언)을 통해서 타입을 명시적으로 선언함으로 타입 시스템을 우회할 수 있다. 그러나 GPT에 따르면 타입 단언은 타입 안정성을 잃을 수 있는 문제를 가지고 있기에 대안적인 방법(타입가드, 타입변환함수)로 접근하는 방법이 더 나은 방법이라고 한다. 해당 부분은 오늘 수업을 들을 부분이기에 추후에 적용하도록 하자.<br/>
+      ```tsx
+      // 문제의 타입 추론(req.params.id)
+      // 에러메시지 : string | readonly string[]' 형식의 인수는 'string' 형식의 매개 변수에 할당될 수 없습니다.  'readonly string[]' 형식은 'string' 형식에 할당할 수 없습니다.ts(2345) 
+
+      rest.delete(`${process.env.REACT_SERVER_KEY}/lists/:id`, async (req, res, ctx) => {
+        const id = req.params.id as string;
+        if (id) {
+          const listsIndex = lists.findIndex(items => items.id === parseInt(id));
+        }
+        return res(ctx.status(200));
+      })
+      ```
+
+<hr>
+</details>
+
+<details>
+<summary>둘째, delete호출(msw)과 관련하여 데이터가 업데이트 되지 않는 이슈</summary>
+
+  - `데이터의 동기화` : 현재 get 방식으로 가져온 자료는 useState에 의해서 관리받고 있다. 그리고 결과 msw의 값은 변경되지만, 해당 내용이 즉시 반영되지 못하는 이슈가 있었다. 당연하다. delete에 따른 서버데이터를 반영하지 못한 결과이다. 그래서 GPT에 물어봤지만, 역시 그 녀석은 원하는 바를 곧잘 말해주지 않는다. <br/><br/>
+    ```tsx
+    const deleteHandler = (id:number) => {
+      fetch(`${process.env.REACT_SERVER_KEY}/lists/${id}`, {
+      method: 'DELETE'
+      })
+      .then(() => {
+      const updatedLists = getData.filter((item) => item.id !== id);
+      setGetData(updatedLists); 
+      })
+      .catch (e => {
+      console.log("error", e.message);
+
+      }) 
+    }
+    ```
+      GPT의 제안은 서버는 서버대로, 프론트의 데이터틑 프론트 대로 따로 관리하라는 조언이었다. 그런데 이것이 개발의도에 따른 것이라고는 생각하지 않는다. 서버의 데이터가 변경되었다면, 반영해야 한다. 그렇다. react-query를 사용했을 때를 복기하면, invalidateQuery를 통해서 쿼리키에 대한 무효화를 선언해주었다. 그래서 GET 메서드가 다시 요청되도록 하였다. 그렇다면, 위의 코드에서 delete 메서드가 동작한 이후에, get요청을 다시해주면 되지 않을까? 결과는 적중했다. <br/><br/>
+    ```tsx
+    const deleteHandler = (id:number) => {
+      fetch(`${process.env.REACT_SERVER_KEY}/lists/${id}`, {
+      method: 'DELETE'
+      })
+      .then(() => {
+      handlerClick() // GET호출 메서드
+      })
+      .catch (e => {
+      console.log("error", e.message);
+
+      }) 
+    }
+    ```  
+    <img src='./public/imgs/msw03.gif' alt="msw라이브러리" width="800px">   
 <hr>
 </details>
