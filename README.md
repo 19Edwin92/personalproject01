@@ -33,23 +33,24 @@
    - `터미널에 성공메시지 확인하기` : Service Worker successfully created!
    - `index.tsx`에 아래의 코드 넣이주기<br/><br/>
 
-    ```tsx
-    // Start the mocking conditionally.
-    if (process.env.NODE_ENV === 'development') {
-      const { worker } = require('./mork/browser')
-      worker.start()
-    }
-    ```
+      ```tsx
+      // Start the mocking conditionally.
+      if (process.env.NODE_ENV === 'development') {
+        const { worker } = require('./mork/browser')
+        worker.start()
+      }
+      ```
   
-  <img src='./public/imgs/msw01.png' alt="msw라이브러리" width="800px"><br/><br/>
+      <img src='./public/imgs/msw01.png' alt="msw라이브러리" width="800px"><br/><br/>
   - `msw 실행`하여 data를 불러와보자. 
   <br/><br/>
-  <img src='./public/imgs/msw02.png' alt="msw라이브러리" width="800px">
-
-  <br/>
+  <img src='./public/imgs/msw02.png' alt="msw라이브러리" width="800px"><br/><br/>
 
   - `msw` DELETE, POST까지 기능을 구현했다.(fetchAPI)<br/><br/>
-  <img src='./public/imgs/msw04.gif' alt="msw라이브러리" width="800px">
+  <img src='./public/imgs/msw04.gif' alt="msw라이브러리" width="800px"><br/><br/>
+
+  - `msw` CRUD 기능구현 완료.(fetchAPI)<br/><br/>
+  <img src='./public/imgs/msw05.gif' alt="msw라이브러리" width="800px">
 <hr>
 </div>
 </details>
